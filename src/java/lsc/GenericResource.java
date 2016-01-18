@@ -36,14 +36,14 @@ public class GenericResource {
     /**
      * 定数クラス
      */
-    private svConst cnst;
+    private SvConst cnst;
     
     /**
      * Creates a new instance of GenericResource
      */
     public GenericResource(){
         try{
-        cnst = new svConst();
+        cnst = new SvConst();
         }catch(Exception ex){
             System.out.println(ex.toString());
             // 発生しない
@@ -66,6 +66,7 @@ public class GenericResource {
     //@Path("{from}/{to}/jsonp")
     @Produces({"application/javascript"})
     /**
+     * @param String callback      : コールバックパラメータ
      * @param String userid        : コンテンツ購入者のユーザID
      * @param String keyid         : 購入チェック対象のコンテンツ識別子
      * @param String onetimekey    : ワンタイムキー
@@ -74,7 +75,8 @@ public class GenericResource {
      * @param String outputquality : 映像品質
      * @param String drm_key_id    : UUIDの形態のDRM KEY ID
      */
-    public String getJSON(@DefaultValue("") @QueryParam("userid") String userid,
+    public String getJSON(@DefaultValue("") @QueryParam("callback") String callback,
+            @DefaultValue("") @QueryParam("userid") String userid,
             @DefaultValue("") @QueryParam("keyid") String keyid,
             @DefaultValue("") @QueryParam("onetimekey") String onetimekey,
             @DefaultValue("") @QueryParam("usagetype") String usagetype,
@@ -90,9 +92,19 @@ public class GenericResource {
         String test = v_url + "\n" + t_url + "\n" + v_id + "\n" + v_pw + "\n";
         
         // 視聴サーバへの問合せ
+        viewingServer sv = new viewingServer();
+        sv.setServerUrl(v_url);
+        sv.setCustomerId(v_id);
+        sv.setAuthPass(v_pw);
+        sv.setUserId(userid);
+        sv.setKeyId(keyid);
+        if(!sv.getSoap()){
+            return "NG";
+        }
+        
         
         // Tokenサーバへの問合せ
-        return "ok=" + test + "\n\n" + userid + "\n" +  keyid + "\n" + onetimekey + "\n" + usagetype + "\n" + devicetype + "\n" + outputquality + "\n" + drm_key_id;
+        return "ok=" + callback + "\n\n" + test + "\n\n" + userid + "\n" +  keyid + "\n" + onetimekey + "\n" + usagetype + "\n" + devicetype + "\n" + outputquality + "\n" + drm_key_id;
     }
     @POST
     @Consumes("application/x-www-form-urlencoded")

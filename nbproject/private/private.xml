@@ -3,9 +3,10 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/D:/dev/ApiServer/src/java/lsc/server/viewingClass.java</file>
+            <file>file:/D:/dev/ApiServer/src/java/lsc/server/base/BaseServer.java</file>
+            <file>file:/D:/dev/ApiServer/src/java/lsc/server/viewingServer.java</file>
             <file>file:/D:/dev/ApiServer/src/java/lsc/GenericResource.java</file>
-            <file>file:/D:/dev/ApiServer/src/java/lsc/ApplicationConfig.java</file>
+            <file>file:/D:/dev/ApiServer/src/java/lsc/server/SvConst.java</file>
         </group>
     </open-files>
 </project-private>

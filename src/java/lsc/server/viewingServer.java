@@ -25,11 +25,11 @@ import javax.xml.ws.Service;
  *
  * @author fujiyohi
  */
-public class viewingServer {
+public class viewingServer extends lsc.server.base.BaseServer{
+    
+    // 視聴サーバ独自のパラメーター
     private String customerId;
     private String authPass;
-    private String userId;
-    private String keyId;
 
     public viewingServer(){
         
@@ -40,10 +40,10 @@ public class viewingServer {
      * 
      * TODO:http://itdoc.hitachi.co.jp/manuals/link/cosmi_v0870/APWK/EU310159.HTM
      */
-    public void getSoap(){
-        QName port = new QName( "http://sample.com", "UserInfoPort" );
+    public boolean getSoap(){
+        QName port = new QName( "http://view-sv/", "UserInfoPort" );
         Service service = Service.create(
-            new QName("http://sample.com", "UserInfoService"));
+            new QName("http://view-sv/", "UserInfoService"));
         String serviceURL = "http://webhost:8085/dispatch_provider/UserInfoService";
  
         // サービスにポートを追加
@@ -89,31 +89,9 @@ public class viewingServer {
             // 登録確認メッセージの表示
             System.out.println( "[RESULT] " + result );
         } catch( SOAPException e ) {
-            e.printStackTrace();
+            return false;
         }
-    }
-
-
-    /*
-    * 
-    * 自動生成(getter,setter)
-    *
-    */
-    
-    public void setCustomerId(String customerId) {
-        this.customerId = customerId;
-    }
-
-    public void setAuthPass(String authPass) {
-        this.authPass = authPass;
-    }
-
-    public void setUserId(String userId) {
-        this.userId = userId;
-    }
-
-    public void setKeyId(String keyId) {
-        this.keyId = keyId;
+        return true;
     }
 
     public String getCustomerId() {
@@ -124,12 +102,14 @@ public class viewingServer {
         return authPass;
     }
 
-    public String getUserId() {
-        return userId;
+    public void setCustomerId(String customerId) {
+        this.customerId = customerId;
     }
 
-    public String getKeyId() {
-        return keyId;
+    public void setAuthPass(String authPass) {
+        this.authPass = authPass;
     }
+    
+    
     
 }
