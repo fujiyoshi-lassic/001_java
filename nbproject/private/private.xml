@@ -3,10 +3,17 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/D:/dev/ApiServer/src/java/lsc/server/base/BaseServer.java</file>
-            <file>file:/D:/dev/ApiServer/src/java/lsc/server/viewingServer.java</file>
-            <file>file:/D:/dev/ApiServer/src/java/lsc/GenericResource.java</file>
-            <file>file:/D:/dev/ApiServer/src/java/lsc/server/SvConst.java</file>
+            <file>file:/D:/dev/ApiServer/src/java/danime/api/JSon/JSon4Player.java</file>
+            <file>file:/D:/dev/ApiServer/web/META-INF/context.xml</file>
+            <file>file:/D:/dev/ApiServer/src/java/danime/api/server/ViewingServer.java</file>
+            <file>file:/D:/dev/ApiServer/src/java/danimeApi/GenericResource.java</file>
+            <file>file:/D:/dev/ApiServer/src/java/danime/api/server/util/SvConst.java</file>
+            <file>file:/D:/dev/ApiServer/src/java/danime/api/server/base/ServerObject.java</file>
+            <file>file:/D:/dev/ApiServer/src/java/danime/api/server/util/UtilServer.java</file>
+            <file>file:/D:/dev/ApiServer/src/java/danime/api/server/TokenServer.java</file>
+            <file>file:/D:/dev/ApiServer/src/java/danime/api/server/base/JSonObject.java</file>
+            <file>file:/D:/dev/ApiServer/src/java/danime/api/JSon/JSon4TokenServer.java</file>
+            <file>file:/D:/dev/ApiServer/web/index.html</file>
         </group>
     </open-files>
 </project-private>
