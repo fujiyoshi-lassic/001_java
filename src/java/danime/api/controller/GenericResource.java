@@ -24,8 +24,9 @@ import net.arnx.jsonic.JSON;
 import danime.api.JSon.*;
 import danime.api.server.ViewingServer;
 import danime.api.server.TokenServer;
-//import danime.api.server.base.JSonObject;
 import danime.api.server.util.SvConst;
+import danime.api.server.base.ServerObject;
+import java.util.logging.Logger;
 
 /**
  * REST Web Service
@@ -42,6 +43,7 @@ public class GenericResource {
      * 定数クラス
      */
     private SvConst cnst;
+    private static final Logger LOG = Logger.getLogger(GenericResource.class.getName());
 
     /**
      * Creates a new instance of GenericResource
@@ -52,6 +54,7 @@ public class GenericResource {
         } catch (Exception ex) {
             // TODO: エラーの握り潰し(発生しないはず)
             System.out.println(ex.toString());
+            LOG.log(java.util.logging.Level.WARNING, ex.toString());
         }
     }
 
@@ -59,7 +62,7 @@ public class GenericResource {
      * Retrieves representation of an instance of lsc.GenericResource
      *
      * @return an instance of java.lang.String
-     * @see http://d.hatena.ne.jp/hikaruright/20130222/1361506292
+     * @see "http://d.hatena.ne.jp/hikaruright/20130222/1361506292"
      */
     @GET
     //@Path("{from}/{to}/jsonp")
@@ -69,14 +72,16 @@ public class GenericResource {
     @Produces({"application/json", "application/javascript"})
     // TODO: バージョンをURIに含める必要あり
     /**
-     * @param String callback : コールバックパラメータ
-     * @param String userid : コンテンツ購入者のユーザID
-     * @param String keyid : 購入チェック対象のコンテンツ識別子
-     * @param String onetimekey : ワンタイムキー
-     * @param String usagetype : 配信種別
-     * @param String devicetype : 再生端末タイプ
-     * @param String outputquality : 映像品質
-     * @param String drm_key_id : UUIDの形態のDRM KEY ID
+     * 処理本体
+     * @param version バージョン情報。現在はv1のみ
+     * @param callBack コールバックパラメータ
+     * @param userId コンテンツ購入者のユーザID
+     * @param keyId 購入チェック対象のコンテンツ識別子
+     * @param oneTimeKey ワンタイムキー
+     * @param usageType 配信種別
+     * @param deviceType 再生端末タイプ
+     * @param outputQuality 映像品質
+     * @param drmKeyId UUIDの形態のDRM KEY ID
      */
     public String getJSON(@PathParam("version") String version,
             @DefaultValue("") @QueryParam("callback") String callBack,
@@ -92,33 +97,37 @@ public class GenericResource {
             // 返値用のJSONデータ格納用初期化
             JSon4Player json = new JSon4Player();
 //</editor-fold>
-            
+
 //<editor-fold defaultstate="collapsed" desc="パラメータ走査">
             // 必須チェック
-            if(callBack.isEmpty()
-                    || userId.isEmpty()  
+            if (callBack.isEmpty()
+                    || userId.isEmpty()
                     || keyId.isEmpty()
-                    || drmKeyId.isEmpty() 
-                    || oneTimeKey.isEmpty()){
+                    || drmKeyId.isEmpty()
+                    || oneTimeKey.isEmpty()) {
                 json.setReturnCd(1001, SvConst.SERVER_API);
                 return JSONWithPaddinger(json, callBack);
                 //return new JSONWithPadding(json, callBack);
             }
-            if(!version.equals(VERSION_V1)){
+            if (!version.equals(VERSION_V1)) {
                 json.setReturnCd(1001, SvConst.SERVER_API);
             }
-            
-//</editor-fold>
-            
 
-////<editor-fold defaultstate="collapsed" desc="定数取得">
-//            String viewUrl = cnst.const_viewing_sv_url;
-//            String viewId = cnst.const_contents_provider_id;
-//            String viewPw = cnst.const_contents_provider_pw;
-//
-//            String tokenUrl = cnst.const_token_sv_url;
-//            boolean tokenFlag = cnst.const_token_debug_flag;
-////</editor-fold>
+//</editor-fold>
+//<editor-fold defaultstate="collapsed" desc="パラメータオブジェクトに詰める(ServerObject svrObj)">
+            ServerObject svrObj = new ServerObject();
+            svrObj.userId = userId;
+            svrObj.keyId = keyId;
+            svrObj.oneTimeKey = oneTimeKey;
+            svrObj.usageType = usageType;
+            svrObj.deviceType = deviceType;
+            svrObj.outputQuality = outputQuality;
+            svrObj.drmKeyId = drmKeyId;
+            // 以下は定数など
+            svrObj.customerId = cnst.const_contents_provider_id;
+            svrObj.authPass = cnst.const_contents_provider_pw;
+            svrObj.testFlag = cnst.const_token_debug_flag.toString();
+//</editor-fold>
 
 //<editor-fold defaultstate="collapsed" desc="デバッグ処理(本番ではここは処理させない)">
             if (cnst.const_api_debug_mode == 9) {
@@ -143,46 +152,24 @@ public class GenericResource {
              *
              **********************************************************************
              */
-// 送信用のJSON作成
-            JSon4TokenServer jsTokenSrv = new JSon4TokenServer();
 // トークンサーバを生成
             TokenServer tknSrv = new TokenServer();
-            tknSrv.setSendObj(jsTokenSrv);
+            tknSrv.setSendObj(svrObj);
 // トークンサーバと通信
             tknSrv.send();
-// TODO: エラー処理必須
-            
-// 取得したトークン情報の格納
-            json.tokenInfo = tknSrv.tokenKey;
-
+// TODO: エラー処理必須→エラーだろうと正常だろうとここまで来たら返すしかない。下位クラスで想定してセット済
+            json.returnCd = tknSrv.returnCd;
+            json.tokenInfo = tknSrv.tokenInfo;
+            json.messageText = tknSrv.errorMessage;
 //</editor-fold>
 
-//<editor-fold defaultstate="collapsed" desc="返りのJSONP作成">
-            /**
-             * *********************************************************************
-             * // 返りのJSONP作成 // @see
-             * http://www.task-notes.com/entry/20150919/1442639772
-             * *********************************************************************
-             */
-            // TODO: プレイヤーへの成否コードは生成しなおす
-            json.returnCd = 0;
-            // 以下は各サーバで取得した値を埋める
-            json.productType = "RENTAL";
-            json.beginDate = "2016/1/4 12:13:14";
-            json.expirationDate = "2016/2/8 14:15:16";
-            json.messageText = "";
-//</editor-fold>
-
-            // JSONP形式に成型する
-            return callBack + '(' + JSON.encode(json) + ')';
+            // JSONP形式に成型して返却
+            return JSONWithPaddinger(json, callBack);
         } catch (Exception ex) {
+            // APIの内部エラーの際もJSONP形式に詰めて返す
             JSon4Player jsonEx = new JSon4Player();
-            if(cnst.const_api_debug_mode == SvConst.DEBUG_LEVEL_DEVELOPMENT){
-                jsonEx.setReturnCd(1010, SvConst.SERVER_API, ex);
-            }else{
-                jsonEx.setReturnCd(1010, SvConst.SERVER_API);
-            }
-            return callBack + '(' + JSON.encode(jsonEx) + ')';
+            jsonEx.setReturnCd(1010, SvConst.SERVER_API, ex);
+            return JSONWithPaddinger(jsonEx, callBack);
         }
     }
 
@@ -192,8 +179,16 @@ public class GenericResource {
     public String postHandler(String content) {
         return content;
     }
-    
-    public String JSONWithPaddinger(Object obj, String callBack){
+
+    /**
+     * オブジェクト型からJSONP形式にエンコードする。
+     *
+     * @param obj 構造体(クラス)
+     * @param callBack(JSONPのコールバック関数名)
+     * @return 成型されたJSONP文字列
+     * @see "http://www.task-notes.com/entry/20150919/1442639772"
+     */
+    public String JSONWithPaddinger(Object obj, String callBack) {
         return callBack + '(' + JSON.encode(obj) + ')';
     }
 }

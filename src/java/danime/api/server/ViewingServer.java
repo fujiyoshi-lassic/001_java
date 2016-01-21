@@ -25,70 +25,72 @@ import javax.xml.ws.Service;
  *
  * @author fujiyohi
  */
-public class ViewingServer extends danime.api.server.base.ServerObject{
-    
+public class ViewingServer extends danime.api.server.base.ServerObject {
+
     // 視聴サーバ独自のパラメーター
     private String customerId;
     private String authPass;
 
-    public ViewingServer(){
-        
+    public ViewingServer() {
+
     }
 
     /**
-     * 
-     * 
-     * @see http://itdoc.hitachi.co.jp/manuals/link/cosmi_v0870/APWK/EU310159.HTM
+     *
+     *
+     * @see
+     * "http://itdoc.hitachi.co.jp/manuals/link/cosmi_v0870/APWK/EU310159.HTM"
+     * @return SOAPサーバからのデータ取得成否
      */
-    public boolean getSoap(){
-        QName port = new QName( "http://view-sv/", "UserInfoPort" );
+    public boolean getSoap() {
+        QName port = new QName("http://view-sv/", "UserInfoPort");
         Service service = Service.create(
-            new QName("http://view-sv/", "UserInfoService"));
+                new QName("http://view-sv/", "UserInfoService"));
         String serviceURL = "http://webhost:8085/dispatch_provider/UserInfoService";
- 
+
         // サービスにポートを追加
-        service.addPort( port, SOAPBinding.SOAP11HTTP_BINDING, serviceURL );
- 
+        service.addPort(port, SOAPBinding.SOAP11HTTP_BINDING, serviceURL);
+
         // Dispatchオブジェクト生成
         Dispatch<SOAPMessage> dispatch = service.createDispatch(
-            port, SOAPMessage.class, Service.Mode.MESSAGE );
- 
+                port, SOAPMessage.class, Service.Mode.MESSAGE);
+
         // 要求メッセージ
         SOAPMessage request = null;
-        
-        try{
+
+        try {
             // 要求メッセージの生成
             request = MessageFactory.newInstance().createMessage();
             SOAPBody reqSoapBody = request.getSOAPBody();
- 
+
             // 社員番号を設定
-            SOAPBodyElement requestRoot= reqSoapBody.addBodyElement(
-                new QName("http://sample.com", "number"));
+            SOAPBodyElement requestRoot = reqSoapBody.addBodyElement(
+                    new QName("http://sample.com", "number"));
             SOAPElement soapElement = requestRoot.addChildElement(
-                new QName("http://sample.com", "value"));
-            soapElement.addTextNode( "1234" );
- 
+                    new QName("http://sample.com", "value"));
+            soapElement.addTextNode("1234");
+
             // 添付ファイル(顔写真)を設定
             String filePath = "C:\\attachment.jpg";
             FileDataSource fds = new FileDataSource(filePath);
-            AttachmentPart apPart =
-                request.createAttachmentPart(new DataHandler(fds));
+            AttachmentPart apPart
+                    = request.createAttachmentPart(new DataHandler(fds));
             request.addAttachmentPart(apPart);
- 
+
             // SOAPメッセージの送受信
-            SOAPMessage response = dispatch.invoke( request );
- 
+            SOAPMessage response = dispatch.invoke(request);
+
             // 応答メッセージからデータを取得
             SOAPBody resSoapBody = response.getSOAPBody();
-            SOAPBodyElement resRoot =
-                (SOAPBodyElement)resSoapBody.getChildElements().next();
+            SOAPBodyElement resRoot
+                    = (SOAPBodyElement) resSoapBody.getChildElements().next();
             Iterator iterator = resRoot.getChildElements();
-            String result =
-                ((SOAPElement)iterator.next()).getFirstChild().getNodeValue();
- 
+            String result
+                    = ((SOAPElement) iterator.next()).getFirstChild().getNodeValue();
+
             // 登録確認メッセージの表示
-            System.out.println( "[RESULT] " + result );
-        } catch( SOAPException e ) {
+            System.out.println("[RESULT] " + result);
+        } catch (SOAPException e) {
             return false;
         }
         return true;
@@ -109,7 +111,5 @@ public class ViewingServer extends danime.api.server.base.ServerObject{
     public void setAuthPass(String authPass) {
         this.authPass = authPass;
     }
-    
-    
-    
+
 }

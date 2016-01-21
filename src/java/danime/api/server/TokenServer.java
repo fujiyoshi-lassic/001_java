@@ -13,6 +13,7 @@ import javax.net.ssl.TrustManager;
 import javax.net.ssl.X509TrustManager;
 import java.security.SecureRandom;
 import java.security.cert.X509Certificate;
+import danime.api.server.base.ServerObject;
 
 
 /**
@@ -20,19 +21,6 @@ import java.security.cert.X509Certificate;
  * @author fujiyohi
  */
 public class TokenServer extends danime.api.server.base.ServerObject{
-    private String usage_type;
-    private String product_type;
-    private String product_id;
-    private String purchase_id;
-    private String user_id;
-    private String valid_from;
-    private String valid_until;
-    private String test_flag;
-    private String drm_key_id;
-    private String device_type;
-    private String output_quality;
-    
-    public String tokenKey;
 
     //テストのメイン... (※例外処理は簡略)
     final int CONNECT_TIMEOUT = 10 * 1000;  //接続タイムアウト[ms]
@@ -79,20 +67,31 @@ public class TokenServer extends danime.api.server.base.ServerObject{
             con.setDoOutput(true);  //出力用接続フラグON
             con.connect();
 
-            //適当にデータを定義
-            JSon4TokenServer JsnTknSv = new JSon4TokenServer();
-            JsnTknSv.user_id = "uuuuId";
-
             //データ用クラス から、JSON 形式に変換
-            String text4 = JSON.encode(JsnTknSv);
+            String text4 = JSON.encode(json);
 
             PrintWriter pw = new PrintWriter(new BufferedWriter(new OutputStreamWriter(con.getOutputStream(), ENCORDING)));
             pw.write(text4);  //出力
             pw.close();  //フラッシュして閉じる
 
             //PHP からの応答(確認用)
+            // {"error_code":11,"error_message":"json parse fail"}
             String res = readLinesText(con.getInputStream());
-            this.tokenKey = res;
+            if(isJSon(res)){
+                // エラーなのでオブジェクトに格納する。
+                TokenServerErrorObject tokenErrObj = JSON.decode(res, TokenServerErrorObject.class);
+                this.returnCd = tokenErrObj.error_code;
+                this.errorCode = tokenErrObj.error_code;
+                this.errorMessage = tokenErrObj.error_message;
+                this.tokenInfo = "";
+            }else{
+                // 成功なのでトークンを格納する
+                this.returnCd = 0;
+                this.errorCode = 0;
+                this.tokenInfo = res;
+                this.errorMessage = "";
+            }
+            
             
 
             con.disconnect();
@@ -107,11 +106,22 @@ public class TokenServer extends danime.api.server.base.ServerObject{
     private JSon4TokenServer json;
     /**
      * トークンサーバに投げるJSONクラスを受け取る
-     * @param jsTokenSrv
+     * @param svrObj サーバオブジェクト
      */
-    public void setSendObj(JSon4TokenServer jsTokenSrv){
+    public void setSendObj(ServerObject svrObj){
         // JSONデータを保持
-        json = jsTokenSrv;
+        JSon4TokenServer json = new JSon4TokenServer();
+        json.usage_type = svrObj.usageType;
+        json.product_type = svrObj.productType;
+        json.product_id = svrObj.keyId;
+        json.purchase_id = svrObj.purchaseId;
+        json.user_id = svrObj.userId;
+        json.valid_from = svrObj.beginDate;
+        json.valid_until = svrObj.expirationDate;
+        json.test_flag = svrObj.testFlag;
+        json.drm_key_id = svrObj.drmKeyId;
+        json.device_type = svrObj.deviceType;
+        json.output_quality = svrObj.outputQuality;
     }
 //</editor-fold>
     
@@ -136,5 +146,17 @@ public class TokenServer extends danime.api.server.base.ServerObject{
         }
     }
 //</editor-fold>
+    
+    private Boolean isJSon(String str){
+        Boolean ret = false;
+        //JSon形式に変換できるか評価する
+        try{
+            TokenServerErrorObject tokenErrObj = JSON.decode(str, TokenServerErrorObject.class);
+            return true;
+        }catch(Exception ex){
+            return false;
+        }
+    }
+    
     
 }

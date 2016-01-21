@@ -18,9 +18,9 @@ public class UtilServer {
     /**
      * キャメルケース表記をスネークケース表記（小文字）へ
      *
-     * @param targetStr
-     * @return
-     * @see http://blog.kengo-toda.jp/entry/20081130/1228026182
+     * @param targetStr スネーク形式文字列
+     * @return ローワーキャメルケース文字列
+     * @see "http://blog.kengo-toda.jp/entry/20081130/1228026182"
      */
     public static String camelToSnake(String targetStr) {
         String convertedStr = targetStr
@@ -32,9 +32,9 @@ public class UtilServer {
     /**
      * スネークケース表記をローワーキャメルケース表記へ
      *
-     * @param targetStr
-     * @return
-     * @see http://blog.kengo-toda.jp/entry/20081130/1228026182
+     * @param targetStr スネーク形式文字列
+     * @return ローワーキャメルケース文字列
+     * @see "http://blog.kengo-toda.jp/entry/20081130/1228026182"
      */
     public static String snakeToCamel(String targetStr) {
         Pattern p = Pattern.compile("_([a-z])");

@@ -9,7 +9,6 @@ import java.io.IOException;
 import java.util.*;
 import java.net.*;
 
-import danime.api.controller.GenericResource;
 import java.io.File;
 import java.nio.file.Paths;
 
@@ -63,7 +62,7 @@ public class SvConst {
     /**
      * コンストラクタ
      * Const.xmlから定数を取得して保持する
-     * @throws IOException 
+     * @throws MalformedURLException プロパティファイルが存在しない場合
      */
     public SvConst() throws MalformedURLException{
         File dicDir = Paths.get(propertiesPath).toFile();

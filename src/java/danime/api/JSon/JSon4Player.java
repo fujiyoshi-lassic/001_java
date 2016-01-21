@@ -22,6 +22,9 @@ public class JSon4Player {
     public String beginDate;
     public String expirationDate;
     public String messageText;
+    private final String EMPTY = "";
+    private final String INI_BOOLEAN = "true";
+    private final int ZERO = 0;
 
     /**
      * 視聴WEBとの通信でのエラーメッセージ
@@ -77,6 +80,12 @@ public class JSon4Player {
         // 不慮の事故に備えて初期値を入れておく
         this.returnCd = 1010;
         this.messageText = (String) JSon4Player.API_SERVER_ERROR.get(this.returnCd);
+        this.returnCd = ZERO;
+        this.tokenInfo = EMPTY;
+        this.productType = EMPTY;
+        this.beginDate = EMPTY;
+        this.expirationDate = EMPTY;
+        this.messageText = EMPTY;
     }
 
     /**
