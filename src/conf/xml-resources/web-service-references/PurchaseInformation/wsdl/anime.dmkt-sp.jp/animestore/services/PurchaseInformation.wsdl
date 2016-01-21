@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions targetNamespace="http://ws.back.anime.dmktsp.jp/" xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:tns="http://ws.back.anime.dmktsp.jp/" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/">
+  <wsdl:types>
+    <s:schema elementFormDefault="qualified" targetNamespace="http://ws.back.anime.dmktsp.jp/">
+      <s:element name="GetPurchaseInfo">
+        <s:complexType>
+          <s:sequence>
+            <s:element maxOccurs="1" minOccurs="0" name="info" type="tns:PurchaseQueryInfo"/>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="PurchaseQueryInfo">
+        <s:sequence>
+          <s:element maxOccurs="1" minOccurs="0" name="CustomerId" type="s:string"/>
+          <s:element maxOccurs="1" minOccurs="0" name="AuthPass" type="s:string"/>
+          <s:element maxOccurs="1" minOccurs="0" name="UserId" type="s:string"/>
+          <s:element maxOccurs="1" minOccurs="0" name="KeyId" type="s:string"/>
+        </s:sequence>
+      </s:complexType>
+      <s:element name="GetPurchaseInfoResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element maxOccurs="1" minOccurs="0" name="GetPurchaseInfoResult" type="tns:PurchaseQueryResult"/>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="PurchaseQueryResult">
+        <s:sequence>
+          <s:element maxOccurs="1" minOccurs="1" name="QueryResult" type="s:int"/>
+          <s:element maxOccurs="1" minOccurs="0" name="BusinessModel" type="s:string"/>
+          <s:element maxOccurs="1" minOccurs="1" name="BeginDate" nillable="true" type="s:dateTime"/>
+          <s:element maxOccurs="1" minOccurs="1" name="ExpirationDate" nillable="true" type="s:dateTime"/>
+          <s:element maxOccurs="1" minOccurs="1" name="FirstPlayExpiration" nillable="true" type="s:int"/>
+        </s:sequence>
+      </s:complexType>
+    </s:schema>
+  </wsdl:types>
+  <wsdl:message name="GetPurchaseInfoSoapOut">
+    <wsdl:part name="parameters" element="tns:GetPurchaseInfoResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="GetPurchaseInfoSoapIn">
+    <wsdl:part name="parameters" element="tns:GetPurchaseInfo">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:portType name="PurchaseInformationSoap">
+    <wsdl:operation name="GetPurchaseInfo">
+      <wsdl:input message="tns:GetPurchaseInfoSoapIn">
+    </wsdl:input>
+      <wsdl:output message="tns:GetPurchaseInfoSoapOut">
+    </wsdl:output>
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="PurchaseInformationSoap12" type="tns:PurchaseInformationSoap">
+    <soap12:binding transport="http://schemas.xmlsoap.org/soap/http"/>
+    <wsdl:operation name="GetPurchaseInfo">
+      <soap12:operation soapAction="http://ws.back.anime.dmktsp.jp/GetPurchaseInfo" style="document"/>
+      <wsdl:input>
+        <soap12:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:binding name="PurchaseInformationSoap" type="tns:PurchaseInformationSoap">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http"/>
+    <wsdl:operation name="GetPurchaseInfo">
+      <soap:operation soapAction="http://ws.back.anime.dmktsp.jp/GetPurchaseInfo" style="document"/>
+      <wsdl:input>
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="PurchaseInformation">
+    <wsdl:port name="PurchaseInformationSoap12" binding="tns:PurchaseInformationSoap12">
+      <soap12:address location="http://anime.dmkt-sp.jp/animestore/services/PurchaseInformation.PurchaseInformationSoap12/"/>
+    </wsdl:port>
+    <wsdl:port name="PurchaseInformationSoap" binding="tns:PurchaseInformationSoap">
+      <soap:address location="http://anime.dmkt-sp.jp/animestore/services/PurchaseInformation.PurchaseInformationSoap/"/>
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

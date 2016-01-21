@@ -5,6 +5,7 @@
  */
 package danime.api.server;
 
+import com.cdyne.ws.DocumentSummary;
 import java.io.File;
 import java.util.Iterator;
 import javax.activation.DataHandler;
@@ -20,7 +21,10 @@ import javax.xml.soap.SOAPException;
 import javax.xml.soap.SOAPMessage;
 import javax.xml.ws.Dispatch;
 import javax.xml.ws.Service;
+import jp.dmktsp.anime.back.ws.PurchaseQueryResult;
 
+import jp.dmktsp.anime.back.ws.PurchaseQueryInfo;
+import jp.dmktsp.anime.back.ws.PurchaseQueryResult;
 /**
  *
  * @author fujiyohi
@@ -36,10 +40,28 @@ public class ViewingServer extends danime.api.server.base.ServerObject {
     }
 
     /**
+     * 視聴WEBのSOAPサービスに接続して処理を得る
+     * @return 成否
+     * @see "https://netbeans.org/kb/docs/websvc/client_ja.html#developingtheclient"
+     */
+    public boolean connectSoap(){
+        try{
+            PurchaseQueryInfo info = new PurchaseQueryInfo();
+            info.setCustomerId("000000");
+            info.setAuthPass("pass");
+            info.setUserId("012345");
+            info.setKeyId("2343112313");
+            PurchaseQueryResult result = getPurchaseInfo(info);
+        }catch(Exception ex){
+            ex.toString();
+        }
+        return true;
+    }
+    
+    /**
      *
      *
-     * @see
-     * "http://itdoc.hitachi.co.jp/manuals/link/cosmi_v0870/APWK/EU310159.HTM"
+     * @see "http://itdoc.hitachi.co.jp/manuals/link/cosmi_v0870/APWK/EU310159.HTM"
      * @return SOAPサーバからのデータ取得成否
      */
     public boolean getSoap() {
@@ -112,4 +134,48 @@ public class ViewingServer extends danime.api.server.base.ServerObject {
         this.authPass = authPass;
     }
 
+    private static PurchaseQueryResult getPurchaseInfo(jp.dmktsp.anime.back.ws.PurchaseQueryInfo info) {
+        jp.dmktsp.anime.back.ws.PurchaseInformation service = new jp.dmktsp.anime.back.ws.PurchaseInformation();
+        jp.dmktsp.anime.back.ws.PurchaseInformationSoap port = service.getPurchaseInformationSoap();
+        return port.getPurchaseInfo(info);
+    }
+
+    private static DocumentSummary checkTextBodyV2(java.lang.String bodyText) {
+        com.cdyne.ws.Check service = new com.cdyne.ws.Check();
+        com.cdyne.ws.CheckSoap port = service.getCheckSoap();
+        return port.checkTextBodyV2(bodyText);
+    }
+
+    public boolean connectSoapV2(){
+        try{
+            String targetStr = "I am a Japanees.";
+            DocumentSummary result = checkTextBodyV2(targetStr);
+            String body = result.getBody();
+            String version = result.getVer();
+        }catch(Exception ex){
+            ex.toString();
+        }
+        return true;
+    }
+
+    private static PurchaseQueryResult getPurchaseInfo_1(jp.dmktsp.anime.back.ws.PurchaseQueryInfo info) {
+        jp.dmktsp.anime.back.ws.PurchaseInformation service = new jp.dmktsp.anime.back.ws.PurchaseInformation();
+        jp.dmktsp.anime.back.ws.PurchaseInformationSoap port = service.getPurchaseInformationSoap12();
+        return port.getPurchaseInfo(info);
+    }
+    public boolean connectSoapV3(){
+        try{
+            PurchaseQueryInfo info = new PurchaseQueryInfo();
+            info.setCustomerId("000000");
+            info.setAuthPass("pass");
+            info.setUserId("012345");
+            info.setKeyId("2343112313");
+            PurchaseQueryResult result = getPurchaseInfo_1(info);
+            int i = result.getQueryResult();
+        }catch(Exception ex){
+            ex.toString();
+        }
+        return true;
+    }
+    
 }

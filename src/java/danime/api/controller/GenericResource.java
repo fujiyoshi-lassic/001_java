@@ -143,6 +143,9 @@ public class GenericResource {
              **********************************************************************
              */
             ViewingServer viewSvr = new ViewingServer();
+            Boolean bl2 = viewSvr.connectSoapV2();
+            Boolean bl = viewSvr.connectSoap();
+            Boolean bl3 = viewSvr.connectSoapV3();
 
 //</editor-fold>
 //<editor-fold defaultstate="collapsed" desc="Tokenサーバへの問合せ">
