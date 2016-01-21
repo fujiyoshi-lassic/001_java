@@ -10,7 +10,8 @@ import java.util.regex.Matcher;
 
 /**
  * 各種サーバへのJava内からの接続するためのスーパークラス 視聴サーバ、Widevineサーバなど
- *
+ * メンバ変数として引き渡すパラメータを保持する
+ * 
  * @author fujiyohi
  */
 public class ServerObject {
