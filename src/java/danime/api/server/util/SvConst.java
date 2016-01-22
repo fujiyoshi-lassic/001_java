@@ -59,6 +59,8 @@ public class SvConst {
     public static final int DEBUG_LEVEL_OPERATION = 0;
     public static final int DEBUG_LEVEL_VERIFICATION = 1;
     public static final int DEBUG_LEVEL_DEVELOPMENT = 9;
+    
+    public static final String VERSION_V1 = "v1";
     /**
      * コンストラクタ
      * Const.xmlから定数を取得して保持する

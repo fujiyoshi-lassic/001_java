@@ -12,12 +12,9 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
-import javax.ws.rs.core.MediaType;
 import javax.ws.rs.POST;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.DefaultValue;
-import java.util.Properties;
-import java.io.IOException;
 
 import net.arnx.jsonic.JSON;
 
@@ -36,13 +33,26 @@ import java.util.logging.Logger;
 @Path("Api")
 public class GenericResource {
 
+    /**
+     * バージョン
+     */
     private final String VERSION_V1 = "v1";
-    @Context
-    private UriInfo context;
+    
+    /**
+     * APIサーバからクライアントに返すJSONオブジェクト
+     */
+    private JSon4Player json;
+    /**
+     * 3サーバ内で受け渡す値の入れ物(POJO)
+     */
+    private ServerObject svrObj;
     /**
      * 定数クラス
      */
     private SvConst cnst;
+    /**
+     * ログ出力(標準出力)
+     */
     private static final Logger LOG = Logger.getLogger(GenericResource.class.getName());
 
     /**
@@ -95,7 +105,9 @@ public class GenericResource {
         try {
 //<editor-fold defaultstate="collapsed" desc="初期処理">
             // 返値用のJSONデータ格納用初期化
-            JSon4Player json = new JSon4Player();
+            json = new JSon4Player();
+            // 各クラスとの受け渡しで使うクラス
+            svrObj = new ServerObject();
 //</editor-fold>
 
 //<editor-fold defaultstate="collapsed" desc="パラメータ走査">
@@ -107,15 +119,14 @@ public class GenericResource {
                     || oneTimeKey.isEmpty()) {
                 json.setReturnCd(1001, SvConst.SERVER_API);
                 return JSONWithPaddinger(json, callBack);
-                //return new JSONWithPadding(json, callBack);
             }
+            // バージョンチェック
             if (!version.equals(VERSION_V1)) {
                 json.setReturnCd(1001, SvConst.SERVER_API);
             }
 
 //</editor-fold>
 //<editor-fold defaultstate="collapsed" desc="パラメータオブジェクトに詰める(ServerObject svrObj)">
-            ServerObject svrObj = new ServerObject();
             svrObj.userId = userId;
             svrObj.keyId = keyId;
             svrObj.oneTimeKey = oneTimeKey;
@@ -143,9 +154,17 @@ public class GenericResource {
              **********************************************************************
              */
             ViewingServer viewSvr = new ViewingServer();
-            Boolean bl2 = viewSvr.connectSoapV2();
+            viewSvr.setParam(svrObj);
             Boolean bl = viewSvr.connectSoap();
-            Boolean bl3 = viewSvr.connectSoapV3();
+            //Boolean bl2 = viewSvr.connectSoapV2();//スペルチェック
+            
+            // 結果を貰いセットしなおす(コスト的に貰ってセットするほうが早い)
+            copyView2Api(viewSvr.getParam());
+            copyApi2ClientJSON(svrObj);
+            if(this.svrObj.queryResult != 0){
+                this.json.setReturnCd(this.svrObj.queryResult, SvConst.SERVER_VIEW);
+                return JSONWithPaddinger(json, callBack);
+            }
 
 //</editor-fold>
 //<editor-fold defaultstate="collapsed" desc="Tokenサーバへの問合せ">
@@ -193,5 +212,24 @@ public class GenericResource {
      */
     public String JSONWithPaddinger(Object obj, String callBack) {
         return callBack + '(' + JSON.encode(obj) + ')';
+    }
+    
+    /**
+     * 視聴サーバの処理結果を内部に保存する
+     * @param sObj 
+     */
+    private void copyView2Api(ServerObject sObj){
+        this.svrObj.setPrmViewServer(sObj.getPrmViewServer());
+    }
+    private void copyToken2Api(ServerObject sObj){
+        
+    }
+    private void copyApi2ClientJSON(ServerObject sObj){
+        json.returnCd = sObj.returnCd;
+        json.productType = sObj.productType;
+        json.beginDate = sObj.beginDate;
+        json.expirationDate = sObj.expirationDate;
+        json.tokenInfo = sObj.tokenInfo;
+        json.messageText = sObj.errorMessage;
     }
 }

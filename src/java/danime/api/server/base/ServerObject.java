@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package danime.api.server.base;
 
 /**
@@ -55,6 +50,40 @@ public class ServerObject {
     public String expirationDate;
     /** 視聴可能な期間 */
     public String gracePeriod;
+    /** 視聴サーバのみの結果パラメータをインスタンス化したPOJO */
+    private prmViewServer prmViewServer;
+    /**
+     * 視聴サーバのみの結果パラメータ取得
+     * @return 視聴サーバのみの結果パラメータクラス
+     */
+    public prmViewServer getPrmViewServer() {
+        return prmViewServer;
+    }
+    /**
+     * 視聴サーバのみの結果パラメータ設定。これはViewingServerクラスから呼ばれることを想定
+     * @param prmViewServer 
+     */
+    public void setPrmViewServer(prmViewServer prmViewServer) {
+        this.prmViewServer = prmViewServer;
+        this.queryResult = prmViewServer.queryResult;
+        this.productType = prmViewServer.productType;
+        this.beginDate = prmViewServer.beginDate;
+        this.expirationDate = prmViewServer.expirationDate;
+        this.gracePeriod = prmViewServer.gracePeriod;
+    }
+    /**
+     * prmViewServerオブジェクトを生成。
+     */
+    public void createViewServer(){
+        prmViewServer prmVS = new prmViewServer();
+        prmVS.queryResult = this.queryResult;
+        prmVS.productType = this.productType;
+        prmVS.beginDate = this.beginDate;
+        prmVS.expirationDate = this.expirationDate;
+        prmVS.gracePeriod = this.gracePeriod;
+        this.setPrmViewServer(prmVS);
+    }
+    
     /****************************************************
      ***************** APIサーバ⇒Tokenサーバ ************
      ***************************************************/
@@ -71,6 +100,31 @@ public class ServerObject {
     public int errorCode;
     /** エラーメッセージ(From Tokenサーバ) */
     public String errorMessage;
+    /** トークンサーバのみの結果パラメータをインスタンス化したPOJO */
+    private prmTokenServer prmTokenServer;
+    /**
+     * トークンサーバのみの結果パラメータ取得
+     * @return トークンサーバのみの結果パラメータクラス
+     */
+    public prmTokenServer getPrmTokenServer() {
+        return prmTokenServer;
+    }
+    /**
+     * トークンサーバのみの結果パラメータ設定
+     * @param prmTokenServer 
+     */
+    public void setPrmTokenServer(prmTokenServer prmTokenServer) {
+        this.prmTokenServer = prmTokenServer;
+    }
+    /**
+     * prmTokenServerオブジェクトを生成。
+     */
+    public void createTokenServer(){
+        this.prmTokenServer.tokenInfo = this.tokenInfo;
+        this.prmTokenServer.errorCode = this.errorCode;
+        this.prmTokenServer.errorMessage = this.errorMessage;
+    }
+    
     /****************************************************
      ***************** APIサーバ⇒Player ****************
      ***************************************************/
@@ -81,6 +135,10 @@ public class ServerObject {
     private final String INI_BOOLEAN = "true";
     private final int ZERO = 0;
 
+    /**
+     * コンストラクタ
+     * 全部の変数を初期化
+     */
     public ServerObject() {
         this.serverUrl = EMPTY;
         this.userId = EMPTY;
@@ -104,5 +162,35 @@ public class ServerObject {
         this.errorMessage = EMPTY;
         this.returnCd = ZERO;
     }
+//<editor-fold defaultstate="collapsed" desc="視聴サーバ返値POJOクラス">
+    /**
+     * 視聴サーバ返値POJOクラス
+     */
+    class prmViewServer{
+        /** 購入情報結果 */
+        public int queryResult;
+        /** 配信種別(businessModelから→productTypeに変わっています) */
+        public String productType;
+        /** 視聴可能開始日時 */
+        public String beginDate;
+        /** 視聴可能終了日時 */
+        public String expirationDate;
+        /** 視聴可能な期間 */
+        public String gracePeriod;
+    }
+//</editor-fold>
     
+//<editor-fold defaultstate="collapsed" desc="トークンサーバ返値POJOクラス">
+    /**
+     * トークンサーバ返値POJOクラス
+     */
+    class prmTokenServer{
+        /** ライセンストークン(From Tokenサーバ) */
+        public String tokenInfo;
+        /** エラーコード(From Tokenサーバ) */
+        public int errorCode;
+        /** エラーメッセージ(From Tokenサーバ) */
+        public String errorMessage;
+    }
+//</editor-fold>
 }
