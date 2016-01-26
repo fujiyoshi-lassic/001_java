@@ -2,11 +2,6 @@
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
-        <group>
-            <file>file:/D:/dev/ApiServer/src/java/danime/api/JSon/JSon4Player.java</file>
-            <file>file:/D:/dev/ApiServer/src/java/danime/api/server/ViewingServer.java</file>
-            <file>file:/D:/dev/ApiServer/src/java/danime/api/controller/GenericResource.java</file>
-            <file>file:/D:/dev/ApiServer/src/java/danime/api/server/base/ServerObject.java</file>
-        </group>
+        <group/>
     </open-files>
 </project-private>
