@@ -44,8 +44,8 @@
     </target>
     <target name="wsimport-client-PurchaseInformation" depends="wsimport-init">
         <mkdir dir="${build.generated.dir}/jax-wsCache/PurchaseInformation"/>
-        <wsimport sourcedestdir="${build.generated.dir}/jax-wsCache/PurchaseInformation" destdir="${build.generated.dir}/jax-wsCache/PurchaseInformation" wsdl="${basedir}/${conf-dir}xml-resources/web-service-references/PurchaseInformation/wsdl/anime.dmkt-sp.jp/animestore/services/PurchaseInformation.wsdl" catalog="catalog.xml" encoding="${source.encoding}" extension="true" verbose="true" fork="false" wsdlLocation="https://anime.dmkt-sp.jp/animestore/services/PurchaseInformation?wsdl" xnocompile="true" xendorsed="true">
-            <depends file="${basedir}/${conf-dir}xml-resources/web-service-references/PurchaseInformation/wsdl/anime.dmkt-sp.jp/animestore/services/PurchaseInformation.wsdl"/>
+        <wsimport sourcedestdir="${build.generated.dir}/jax-wsCache/PurchaseInformation" destdir="${build.generated.dir}/jax-wsCache/PurchaseInformation" wsdl="${basedir}/${conf-dir}xml-resources/web-service-references/PurchaseInformation/wsdl/dev.anime.dmkt-sp.jp/animestore/services/PurchaseInformation.wsdl" catalog="catalog.xml" encoding="${source.encoding}" extension="true" verbose="true" fork="false" wsdlLocation="https://dev.anime.dmkt-sp.jp/animestore/services/PurchaseInformation?wsdl" xnocompile="true" xendorsed="true">
+            <depends file="${basedir}/${conf-dir}xml-resources/web-service-references/PurchaseInformation/wsdl/dev.anime.dmkt-sp.jp/animestore/services/PurchaseInformation.wsdl"/>
             <produces dir="${build.generated.dir}/jax-wsCache/PurchaseInformation"/>
         </wsimport>
         <copy todir="${build.generated.sources.dir}/jax-ws">

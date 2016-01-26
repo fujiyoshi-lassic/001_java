@@ -35,8 +35,8 @@
       </wsimport-options>
     </client>
     <client name="PurchaseInformation">
-      <wsdl-url>https://anime.dmkt-sp.jp/animestore/services/PurchaseInformation?wsdl</wsdl-url>
-      <local-wsdl-file>anime.dmkt-sp.jp/animestore/services/PurchaseInformation.wsdl</local-wsdl-file>
+      <wsdl-url>https://dev.anime.dmkt-sp.jp/animestore/services/PurchaseInformation?wsdl</wsdl-url>
+      <local-wsdl-file>dev.anime.dmkt-sp.jp/animestore/services/PurchaseInformation.wsdl</local-wsdl-file>
       <package-name>jp.dmktsp.anime.back.ws</package-name>
       <catalog-file>catalog.xml</catalog-file>
       <wsimport-options>
@@ -54,7 +54,7 @@
         </wsimport-option>
         <wsimport-option>
           <wsimport-option-name>wsdlLocation</wsimport-option-name>
-          <wsimport-option-value>https://anime.dmkt-sp.jp/animestore/services/PurchaseInformation?wsdl</wsimport-option-value>
+          <wsimport-option-value>https://dev.anime.dmkt-sp.jp/animestore/services/PurchaseInformation?wsdl</wsimport-option-value>
         </wsimport-option>
         <wsimport-option>
           <wsimport-option-name>xnocompile</wsimport-option-name>

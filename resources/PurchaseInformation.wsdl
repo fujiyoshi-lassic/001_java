@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<wsdl:definitions targetNamespace="http://ws.back.anime.dmktsp.jp/" xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:tns="http://ws.back.anime.dmktsp.jp/" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/">
+<wsdl:definitions targetNamespace="http://ws.back.anime.dmktsp.jp/" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/" xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:tns="http://ws.back.anime.dmktsp.jp/" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/">
   <wsdl:types>
     <s:schema elementFormDefault="qualified" targetNamespace="http://ws.back.anime.dmktsp.jp/">
       <s:element name="GetPurchaseInfo">
@@ -51,18 +51,6 @@
     </wsdl:output>
     </wsdl:operation>
   </wsdl:portType>
-  <wsdl:binding name="PurchaseInformationSoap12" type="tns:PurchaseInformationSoap">
-    <soap12:binding transport="http://schemas.xmlsoap.org/soap/http"/>
-    <wsdl:operation name="GetPurchaseInfo">
-      <soap12:operation soapAction="http://ws.back.anime.dmktsp.jp/GetPurchaseInfo" style="document"/>
-      <wsdl:input>
-        <soap12:body use="literal"/>
-      </wsdl:input>
-      <wsdl:output>
-        <soap12:body use="literal"/>
-      </wsdl:output>
-    </wsdl:operation>
-  </wsdl:binding>
   <wsdl:binding name="PurchaseInformationSoap" type="tns:PurchaseInformationSoap">
     <soap:binding transport="http://schemas.xmlsoap.org/soap/http"/>
     <wsdl:operation name="GetPurchaseInfo">
@@ -75,12 +63,24 @@
       </wsdl:output>
     </wsdl:operation>
   </wsdl:binding>
+  <wsdl:binding name="PurchaseInformationSoap12" type="tns:PurchaseInformationSoap">
+    <soap12:binding transport="http://schemas.xmlsoap.org/soap/http"/>
+    <wsdl:operation name="GetPurchaseInfo">
+      <soap12:operation soapAction="http://ws.back.anime.dmktsp.jp/GetPurchaseInfo" style="document"/>
+      <wsdl:input>
+        <soap12:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
   <wsdl:service name="PurchaseInformation">
-    <wsdl:port name="PurchaseInformationSoap12" binding="tns:PurchaseInformationSoap12">
-      <soap12:address location="http://anime.dmkt-sp.jp/animestore/services/PurchaseInformation.PurchaseInformationSoap12/"/>
-    </wsdl:port>
     <wsdl:port name="PurchaseInformationSoap" binding="tns:PurchaseInformationSoap">
-      <soap:address location="http://anime.dmkt-sp.jp/animestore/services/PurchaseInformation.PurchaseInformationSoap/"/>
+      <soap:address location="http://133.108.157.197/CpWebParts/PurchaseInformation/PurchaseInformation.asmx"/>
+    </wsdl:port>
+    <wsdl:port name="PurchaseInformationSoap12" binding="tns:PurchaseInformationSoap12">
+      <soap12:address location="http://133.108.157.197/CpWebParts/PurchaseInformation/PurchaseInformation.asmx"/>
     </wsdl:port>
   </wsdl:service>
 </wsdl:definitions>

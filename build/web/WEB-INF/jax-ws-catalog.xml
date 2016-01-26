@@ -2,4 +2,8 @@
 <catalog xmlns="urn:oasis:names:tc:entity:xmlns:xml:catalog" prefer="system">
     <system systemId="https://anime.dmkt-sp.jp/animestore/services/PurchaseInformation?wsdl" uri="wsdl/anime.dmkt-sp.jp/animestore/services/PurchaseInformation.wsdl"/>
     <system systemId="http://wsf.cdyne.com/SpellChecker/check.asmx?wsdl" uri="wsdl/wsf.cdyne.com/SpellChecker/check.asmx.wsdl"/>
+    <system systemId="https://dev.anime.dmkt-sp.jp/animestore/services/PurchaseInformation?wsdl" uri="wsdl/dev.anime.dmkt-sp.jp/animestore/services/PurchaseInformation.wsdl"/>
+    <system systemId="https://test0s1:eR4iH8kx@dev.anime.dmkt-sp.jp/animestore/services/PurchaseInformation?wsdl" uri="wsdl/test0s1_eR4iH8kx_dev.anime.dmkt-sp.jp/animestore/services/PurchaseInformation.wsdl"/>
+    <system systemId="file:/D:/dev/ApiServer/resources/PurchaseInformation.wsdl" uri="wsdl/PurchaseInformation.wsdl"/>
+    <system systemId="file:/D:/dev/ApiServer/resources/dev_PurchaseInformation.wsdl" uri="wsdl/dev_PurchaseInformation.wsdl"/>
 </catalog>

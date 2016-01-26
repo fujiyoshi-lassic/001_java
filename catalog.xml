@@ -2,4 +2,8 @@
 <catalog xmlns="urn:oasis:names:tc:entity:xmlns:xml:catalog" prefer="system">
     <system systemId="http://wsf.cdyne.com/SpellChecker/check.asmx?wsdl" uri="src/conf/xml-resources/web-service-references/check/wsdl/wsf.cdyne.com/SpellChecker/check.asmx.wsdl"/>
     <system systemId="https://anime.dmkt-sp.jp/animestore/services/PurchaseInformation?wsdl" uri="src/conf/xml-resources/web-service-references/PurchaseInformation/wsdl/anime.dmkt-sp.jp/animestore/services/PurchaseInformation.wsdl"/>
+    <system systemId="https://test0s1:eR4iH8kx@dev.anime.dmkt-sp.jp/animestore/services/PurchaseInformation?wsdl" uri="src/conf/xml-resources/web-service-references/PurchaseInformation/wsdl/test0s1_eR4iH8kx_dev.anime.dmkt-sp.jp/animestore/services/PurchaseInformation.wsdl"/>
+    <system systemId="file:/D:/dev/ApiServer/resources/PurchaseInformation.wsdl" uri="src/conf/xml-resources/web-service-references/PurchaseInformation/wsdl/PurchaseInformation.wsdl"/>
+    <system systemId="file:/D:/dev/ApiServer/resources/dev_PurchaseInformation.wsdl" uri="src/conf/xml-resources/web-service-references/dev_PurchaseInformation/wsdl/dev_PurchaseInformation.wsdl"/>
+    <system systemId="https://dev.anime.dmkt-sp.jp/animestore/services/PurchaseInformation?wsdl" uri="src/conf/xml-resources/web-service-references/PurchaseInformation/wsdl/dev.anime.dmkt-sp.jp/animestore/services/PurchaseInformation.wsdl"/>
 </catalog>

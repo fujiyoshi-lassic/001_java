@@ -2,6 +2,12 @@
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
-        <group/>
+        <group>
+            <file>file:/D:/dev/ApiServer/build/generated-sources/jax-ws/jp/dmktsp/anime/back/ws/PurchaseInformation.java</file>
+            <file>file:/D:/dev/ApiServer/build/generated-sources/jax-ws/jp/dmktsp/anime/back/ws/GetPurchaseInfo.java</file>
+            <file>file:/D:/dev/ApiServer/src/java/danime/api/server/ViewingServer.java</file>
+            <file>file:/D:/dev/ApiServer/src/java/danime/api/controller/GenericResource.java</file>
+            <file>file:/D:/dev/ApiServer/src/java/danime/api/server/TokenServer.java</file>
+        </group>
     </open-files>
 </project-private>

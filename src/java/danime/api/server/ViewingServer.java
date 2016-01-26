@@ -8,6 +8,9 @@ import jp.dmktsp.anime.back.ws.PurchaseQueryResult;
 import javax.xml.datatype.XMLGregorianCalendar;
 import javax.xml.datatype.DatatypeFactory;
 
+import javax.xml.ws.BindingProvider;
+
+
 /**
  * 送信受信クラスを内包しつつ、SOAP処理を実装
  * @author fujiyohi
@@ -44,13 +47,13 @@ public class ViewingServer extends danime.api.server.base.ServerObject {
             info.setUserId(svrObj.userId);
             info.setKeyId(svrObj.keyId);
             // 処理
-            //PurchaseQueryResult result = getPurchaseInfo(info);
-            // TODO: *************************ダミー処理 Start
-            PurchaseQueryResult result = new PurchaseQueryResult();
-            result.setQueryResult(0);
-            result.setBusinessModel("RENTAL");
-            result.setBeginDate(DatatypeFactory.newInstance().newXMLGregorianCalendar(new GregorianCalendar()));
-            result.setExpirationDate(DatatypeFactory.newInstance().newXMLGregorianCalendar(new GregorianCalendar()));
+            PurchaseQueryResult result = getPurchaseInfo(info);
+//            // TODO: *************************ダミー処理 Start
+//            PurchaseQueryResult result = new PurchaseQueryResult();
+//            result.setQueryResult(0);
+//            result.setBusinessModel("RENTAL");
+//            result.setBeginDate(DatatypeFactory.newInstance().newXMLGregorianCalendar(new GregorianCalendar()));
+//            result.setExpirationDate(DatatypeFactory.newInstance().newXMLGregorianCalendar(new GregorianCalendar()));
             // TODO: *************************ダミー処理 End
             // 返値を取得
             svrObj.queryResult = result.getQueryResult();
@@ -75,6 +78,13 @@ public class ViewingServer extends danime.api.server.base.ServerObject {
     private static PurchaseQueryResult getPurchaseInfo(jp.dmktsp.anime.back.ws.PurchaseQueryInfo info) {
         jp.dmktsp.anime.back.ws.PurchaseInformation service = new jp.dmktsp.anime.back.ws.PurchaseInformation();
         jp.dmktsp.anime.back.ws.PurchaseInformationSoap port = service.getPurchaseInformationSoap();
+        
+        // Add start
+//        BindingProvider bp = (BindingProvider)port;
+//        bp.getRequestContext().put(BindingProvider.USERNAME_PROPERTY, "test0s1");
+//        bp.getRequestContext().put(BindingProvider.PASSWORD_PROPERTY, "eR4iH8kx");
+        // Add end
+
         return port.getPurchaseInfo(info);
     }
 

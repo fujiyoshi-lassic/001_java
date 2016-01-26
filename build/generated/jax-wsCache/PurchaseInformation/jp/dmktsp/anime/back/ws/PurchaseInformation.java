@@ -17,7 +17,7 @@ import javax.xml.ws.WebServiceFeature;
  * Generated source version: 2.2
  * 
  */
-@WebServiceClient(name = "PurchaseInformation", targetNamespace = "http://ws.back.anime.dmktsp.jp/", wsdlLocation = "https://anime.dmkt-sp.jp/animestore/services/PurchaseInformation?wsdl")
+@WebServiceClient(name = "PurchaseInformation", targetNamespace = "http://ws.back.anime.dmktsp.jp/", wsdlLocation = "https://dev.anime.dmkt-sp.jp/animestore/services/PurchaseInformation?wsdl")
 public class PurchaseInformation
     extends Service
 {
@@ -30,7 +30,7 @@ public class PurchaseInformation
         URL url = null;
         WebServiceException e = null;
         try {
-            url = new URL("https://anime.dmkt-sp.jp/animestore/services/PurchaseInformation?wsdl");
+            url = new URL("https://dev.anime.dmkt-sp.jp/animestore/services/PurchaseInformation?wsdl");
         } catch (MalformedURLException ex) {
             e = new WebServiceException(ex);
         }
