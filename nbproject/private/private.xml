@@ -3,11 +3,14 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/D:/dev/ApiServer/build/generated-sources/jax-ws/jp/dmktsp/anime/back/ws/PurchaseInformation.java</file>
-            <file>file:/D:/dev/ApiServer/build/generated-sources/jax-ws/jp/dmktsp/anime/back/ws/GetPurchaseInfo.java</file>
-            <file>file:/D:/dev/ApiServer/src/java/danime/api/server/ViewingServer.java</file>
+            <file>file:/D:/dev/ApiServer/web/test-resbeans.html</file>
+            <file>file:/D:/dev/ApiServer/src/java/danime/api/controller/HealthCheck.java</file>
+            <file>file:/D:/dev/ApiServer/web/WEB-INF/jax-ws-catalog.xml</file>
+            <file>file:/D:/dev/ApiServer/web/META-INF/context.xml</file>
             <file>file:/D:/dev/ApiServer/src/java/danime/api/controller/GenericResource.java</file>
-            <file>file:/D:/dev/ApiServer/src/java/danime/api/server/TokenServer.java</file>
+            <file>file:/D:/dev/ApiServer/src/conf/MANIFEST.MF</file>
+            <file>file:/D:/dev/ApiServer/src/java/danime/api/controller/ApplicationConfig.java</file>
+            <file>file:/D:/dev/ApiServer/web/WEB-INF/web.xml</file>
         </group>
     </open-files>
 </project-private>

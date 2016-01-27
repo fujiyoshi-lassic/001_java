@@ -30,7 +30,7 @@ import java.util.logging.Logger;
  *
  * @author fujiyohi
  */
-@Path("Api")
+@Path("")   // 元はApiだったが仕様書に合わせて変更
 public class GenericResource {
 
     /**
@@ -78,7 +78,7 @@ public class GenericResource {
     //@Path("{from}/{to}/jsonp")
     //@Produces({"application/javascript"})
     //@JSONP
-    @Path("/{version}")
+    //@Path("/{version}")     // 仕様書通りにするならばバージョンはなくさないといけない
     @Produces({"application/json", "application/javascript"})
     // TODO: バージョンをURIに含める必要あり
     /**
@@ -93,7 +93,8 @@ public class GenericResource {
      * @param outputQuality 映像品質
      * @param drmKeyId UUIDの形態のDRM KEY ID
      */
-    public String getJSON(@PathParam("version") String version,
+    public String getJSON(
+            //@PathParam("version") String version,
             @DefaultValue("") @QueryParam("callback") String callBack,
             @DefaultValue("") @QueryParam("userId") String userId,
             @DefaultValue("") @QueryParam("keyId") String keyId,
@@ -120,12 +121,13 @@ public class GenericResource {
                 json.setReturnCd(1001, SvConst.SERVER_API);
                 return JSONWithPaddinger(json, callBack);
             }
-            // バージョンチェック
-            if (!version.equals(VERSION_V1)) {
-                json.setReturnCd(1001, SvConst.SERVER_API);
-            }
+            // バージョンチェック→仕様書通りにするために今回は含めない
+//            if (!version.equals(VERSION_V1)) {
+//                json.setReturnCd(1001, SvConst.SERVER_API);
+//            }
 
 //</editor-fold>
+
 //<editor-fold defaultstate="collapsed" desc="パラメータオブジェクトに詰める(ServerObject svrObj)">
             svrObj.userId = userId;
             svrObj.keyId = keyId;
@@ -167,6 +169,7 @@ public class GenericResource {
             }
 
 //</editor-fold>
+
 //<editor-fold defaultstate="collapsed" desc="Tokenサーバへの問合せ">
             /**
              * *********************************************************************
